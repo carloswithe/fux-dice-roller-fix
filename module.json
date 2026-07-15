@@ -17,7 +17,7 @@
       "path": "languages/en.json"
     }
   ],
-  "version": "0.4.4",
+  "version": "0.4.5",
   "compatibility": {
     "minimum": "10",
     "verified": "13",
@@ -37,7 +37,7 @@
   ],
   "manifest": "https://raw.githubusercontent.com/carloswithe/fux-dice-roller-fix/main/module.json",
   "url": "https://github.com/carloswithe/fux-dice-roller-fix",
-  "download": "https://github.com/carloswithe/fux-dice-roller-fix/releases/download/v0.4.4/fux-dice-roller-0.4.4.zip",
+  "download": "https://github.com/carloswithe/fux-dice-roller-fix/releases/download/v0.4.5/fux-dice-roller-0.4.5.zip",
   "readme": "https://github.com/carloswithe/fux-dice-roller-fix/blob/main/README.md",
   "changelog": "https://github.com/carloswithe/fux-dice-roller-fix/blob/main/changelog.md",
   "media": [

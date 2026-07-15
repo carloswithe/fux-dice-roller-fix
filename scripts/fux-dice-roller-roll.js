@@ -500,8 +500,12 @@ export async function RollFuxDice(actiondice, dangerdice) {
       renderFuxTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-sandbox.hbs", rollData).then(html => {
         let messageData = {
           content: html,
-          type: rvalue,   // deprecated alias, kept for v10/v11
-          style: rvalue,  // v12+ field name
+          // NOTE: ChatMessageData.type was the numeric roll-style field through v11, but
+          // Foundry v13 repurposed "type" for its new ChatMessage sub-type system, and a
+          // numeric value like 0 now fails DataModel validation ("type: 0 is not a valid
+          // type for the ChatMessage Document class"). Only .style (the v12+ field) is
+          // set; Foundry defaults type/style to OTHER on v10/v11 when omitted.
+          style: rvalue,
           blind: blindmode
         };
         if (rtypevalue == CONST.DICE_ROLL_MODES.PRIVATE || rtypevalue == CONST.DICE_ROLL_MODES.BLIND) {
@@ -597,8 +601,12 @@ export async function RollFuxDice(actiondice, dangerdice) {
       renderFuxTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
         let messageData = {
           content: html,
-          type: rvalue,   // deprecated alias, kept for v10/v11
-          style: rvalue,  // v12+ field name
+          // NOTE: ChatMessageData.type was the numeric roll-style field through v11, but
+          // Foundry v13 repurposed "type" for its new ChatMessage sub-type system, and a
+          // numeric value like 0 now fails DataModel validation ("type: 0 is not a valid
+          // type for the ChatMessage Document class"). Only .style (the v12+ field) is
+          // set; Foundry defaults type/style to OTHER on v10/v11 when omitted.
+          style: rvalue,
           blind: blindmode
         };
         

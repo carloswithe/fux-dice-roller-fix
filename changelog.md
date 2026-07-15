@@ -1,4 +1,12 @@
 # FUx Dice Roller Change Log
+## Version 0.4.5 (2026-07-14) - fux-dice-roller-fix
+- Fixed a v13 regression introduced by the 0.4.3 patch itself: setting
+  `messageData.type = rvalue` (a number like `0`) on `ChatMessage.create()` now fails
+  Foundry v13's DataModel validation with `DataModelValidationError: type: "0" is not a
+  valid type for the ChatMessage Document class`, because v13 repurposed the `type`
+  field for its new ChatMessage sub-type system. Confirmed live via console error on
+  Foundry v13.351. The numeric roll-style value is now only set via `.style`.
+
 ## Version 0.4.4 (2026-07-14) - fux-dice-roller-fix
 - Fixed a pre-existing bug (present in every version, not v13-specific): `RollFuxDice`
   read a `.roll-type-select` element that only exists inside the dice roller form's own
