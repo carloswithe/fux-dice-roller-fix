@@ -376,8 +376,12 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let privatemode=false;
     let gmmode=false;
     let selfmode=false;
+    // "roll-type-select" only exists inside the dice roller form's own template. When
+    // RollFuxDice is invoked directly via the "/fux" chat command (no form open), fall
+    // back to the chat log's own current roll mode (the globe/mask/eye/person icons),
+    // which is the same core setting Foundry's own /roll, /gmroll, /blindroll etc. use.
     let rolltype = document.getElementsByClassName("roll-type-select");
-    let rtypevalue = rolltype[0].value;
+    let rtypevalue = rolltype.length > 0 ? rolltype[0].value : game.settings.get("core", "rollMode");
     // CHAT_MESSAGE_TYPES was renamed to CHAT_MESSAGE_STYLES in v12 (same keys/values);
     // fall back to the old name so this keeps working on v10/v11 too.
     const CHAT_MESSAGE_KIND = CONST.CHAT_MESSAGE_STYLES ?? CONST.CHAT_MESSAGE_TYPES;

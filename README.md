@@ -14,7 +14,7 @@ Module validation errors:
 
 This fork adds `"id": "fux-dice-roller"` (matching `name`) and points `manifest`/`download`/`url`/`readme`/`changelog` at this repository so installs and update checks work correctly.
 
-Version 0.4.3 additionally patches the module for **Foundry v13 (tested against build 13.351)**. See [changelog.md](changelog.md) for the exact list of API changes handled (renamed hooks, removed `.data` wrapper, deprecated `Roll#roll({async:true})`, `CHAT_MESSAGE_TYPES` → `CHAT_MESSAGE_STYLES`, `renderTemplate` namespace move).
+Versions 0.4.3-0.4.4 additionally patch the module for **Foundry v13 (tested against build 13.351)**. See [changelog.md](changelog.md) for the exact list of API changes handled (renamed hooks, removed `.data` wrapper, deprecated `Roll#roll({async:true})`, `CHAT_MESSAGE_TYPES` → `CHAT_MESSAGE_STYLES`, `renderTemplate` namespace move, and a pre-existing `/fux` chat-command crash that affected every prior version).
 
 All other credit for the module goes to the original author.
 

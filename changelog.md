@@ -1,4 +1,13 @@
 # FUx Dice Roller Change Log
+## Version 0.4.4 (2026-07-14) - fux-dice-roller-fix
+- Fixed a pre-existing bug (present in every version, not v13-specific): `RollFuxDice`
+  read a `.roll-type-select` element that only exists inside the dice roller form's own
+  template. Calling the `/fux [x]a[y]d` chat command without that form open threw
+  `TypeError: Cannot read properties of undefined (reading 'value')` and silently did
+  nothing. It now falls back to the chat log's own current roll mode
+  (`game.settings.get("core", "rollMode")`) when the form isn't open — the same source
+  Foundry's own `/roll`, `/gmroll`, `/blindroll` commands use.
+
 ## Version 0.4.3 (2026-07-14) - fux-dice-roller-fix
 - Added the required `id` field to module.json (Foundry v10+ install fix)
 - Foundry v13 (13.351) compatibility:
