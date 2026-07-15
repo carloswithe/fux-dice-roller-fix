@@ -1,0 +1,71 @@
+{
+  "fux-dice-roller":  {                      
+    "settings": {               
+      "SETTINGS_FORM": {
+        "Name": "FUx Dice Roller Settings",
+        "Hint": "Displays settings form for FUx Dice Roller"
+      }, 
+      
+      "ROLLER_FORM": {
+        "Name": "FUx Dice Roller",
+        "Hint": "Displays FUx Dice Roller"
+      }, 
+         
+      "OPTION_SYSTEM_VARIANT": {
+        "Name": "FUx System Variant",
+        "Hint": "Variant of FreeForm Universal(FU) used"
+      },        
+         
+      "OPTION_CHATMSG_STYLE": {
+        "Name": "Chat Message Style",
+        "Hint": "Style of chat message used"
+      },    
+      
+      
+      "OPTION_SHOW_SEND_TO_COMBAT_TRACKER": {
+        "Name": "Show Send to Combat Tracker ",
+        "Hint": "Display option to send result as Initiative to Combat Tracker for controlled tokens"
+      },
+      
+      "OPTION_DICE_AVAILABLE": {
+        "Name": "Dice Available",
+        "Hint": "Number of dice displayed"
+      } , 
+       
+      "OPTION_HARD_MODE": {
+        "Name": "FUv2/NCO/Action!Tale: Hard Mode",
+        "Hint": "In hard mode each Danger die cancels all Action dice with a matching value"
+      } , 
+      
+      "OPTION_BOTCH_VALUE": {
+        "Name": "FUv2/NCO/Action!Tale: Botch Value",
+        "Hint": "The numerical value of a Botch(Standard FU2 is 1)"
+      } ,  
+      
+      
+      "OPTION_FU_CLASSIC_MATCHING_DICE": {
+        "Name": "FU Classic: Matching Dice",
+        "Hint": "Rolling doubles, triples or quadruples etc makes a success better or a failure worse"
+      } ,
+      
+      
+      "OPTION_CUSTOM_ACTION_DICE_ICON": {
+        "Name": "Custom Action Dice Icon",
+        "Hint": "Path to custom icon for Action Dice. Leave blank for default"
+      } ,
+      
+      "OPTION_CUSTOM_DANGER_DICE_ICON": {
+        "Name": "Custom Danger Dice Icon",
+        "Hint": "Path to custom icon for Danger Dice. Leave blank for default"
+      } ,
+      
+      "SYSTEM_VARIANT_FU_CLASSIC":"FU Classic",
+      "SYSTEM_VARIANT_FU_V2":"FU v2",
+      "SYSTEM_VARIANT_ACTION_TALES":"Action! Tales",
+      "SYSTEM_VARIANT_NEON_CITY_OVERDRIVE":"Neon City Overdrive",
+      "SYSTEM_VARIANT_EARTHDAWN_AGE_OF_LEGEND":"Earthdawn - Age Of Legend",
+      "OPTION_CHATMSG_STYLE_CORE":"Foundry Core",
+      "OPTION_CHATMSG_STYLE_SANDBOX":"Sandbox System"
+    }
+  }
+}
