@@ -1,4 +1,13 @@
 # FUx Dice Roller Change Log
+## Version 0.4.6 (2026-07-14) - fux-dice-roller-fix
+- Added a Scene Controls tool button (left-hand toolbar, token controls group) that
+  opens the FUx Dice Roller window. Uses `getSceneControlButtons`, a stable documented
+  API, instead of guessing the v13 chat sidebar's internal DOM/class names like the
+  chat-icon injection (kept as a best-effort extra) has to.
+- The dice roller window and its Settings-menu launcher
+  (Configure Settings → Module Settings → FUx Dice Roller) were already confirmed
+  working as-is on v13.351.
+
 ## Version 0.4.5 (2026-07-14) - fux-dice-roller-fix
 - Fixed a v13 regression introduced by the 0.4.3 patch itself: setting
   `messageData.type = rvalue` (a number like `0`) on `ChatMessage.create()` now fails

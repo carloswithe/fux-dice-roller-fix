@@ -24,9 +24,15 @@ All other credit for the module goes to the original author.
 - Verified: v13 (13.351)
 - Maximum: v13
 
+### Ways to open the dice roller on v13
+
+- **Scene Controls** (left-hand toolbar, dice icon in the token tools group) — added in 0.4.6, uses a stable documented API
+- **Settings → Configure Settings → Module Settings → FUx Dice Roller**
+- **`/fux [x]a[y]d` chat command** (e.g. `/fux 2a1d`)
+
 ### Known limitation
 
-Foundry v13 rewrote the core chat sidebar with the new ApplicationV2 framework, and its internal HTML/class names could not be verified against a live v13 instance while patching this fork. The dice-roller icon injection into the chat sidebar controls is now defensive — if the expected DOM structure isn't found it fails silently instead of throwing, and the roller stays fully usable via the `/fux [x]a[y]d` chat command (e.g. `/fux 2a1d`) and via `game.settings.registerMenu`. If the icon doesn't appear next to the chat controls on your world, that's expected until someone confirms the current v13 DOM and the injection selector gets updated — please open an issue with a screenshot/HTML snippet of your chat sidebar controls if you'd like this fixed.
+Foundry v13 rewrote the core chat sidebar with the new ApplicationV2 framework, and its internal HTML/class names could not be verified against a live v13 instance while patching this fork. The dice-roller icon injection into the chat sidebar controls is best-effort and fails silently instead of throwing if the expected DOM structure isn't found — use one of the alternatives above if it doesn't appear. Open an issue with a screenshot/HTML snippet of your chat sidebar controls if you'd like that specific spot fixed.
 
 ## Install
 

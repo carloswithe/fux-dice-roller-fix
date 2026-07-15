@@ -274,6 +274,42 @@ Hooks.on("renderSidebarTab", (app, html) => {
 });
 
 
+// Reliable launcher: a Scene Controls tool button (left-hand toolbar). Unlike the chat
+// sidebar icon above, getSceneControlButtons is a stable, documented API that hasn't
+// changed shape across the module's declared v10-v13 range beyond controls/tools going
+// from an array (v10/v11) to an object keyed by name (v12+), both handled below.
+Hooks.on("getSceneControlButtons", (controls) => {
+  try {
+    const openRoller = () => new FUxDiceRollerForm({}).render(true, {focus: true});
+    const toolData = {
+      name: 'fux-dice-roller',
+      title: 'FUx Dice Roller',
+      icon: 'fas fa-dice-d6',
+      button: true,
+      visible: true,
+      onClick: openRoller,
+      onChange: openRoller
+    };
+
+    if (Array.isArray(controls)) {
+      // v10/v11 shape
+      const tokenControls = controls.find(c => c.name === 'token' || c.name === 'tokens');
+      if (tokenControls?.tools && !tokenControls.tools.some(t => t.name === toolData.name)) {
+        tokenControls.tools.push(toolData);
+      }
+    } else {
+      // v12+ shape
+      const tokenControls = controls.tokens ?? controls.token;
+      if (tokenControls?.tools) {
+        tokenControls.tools[toolData.name] = { ...toolData, order: Object.keys(tokenControls.tools).length };
+      }
+    }
+  } catch (err) {
+    console.warn(_module_id + ' | Could not add the Scene Controls dice roller button.', err);
+  }
+});
+
+
 
 
 
