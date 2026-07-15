@@ -205,7 +205,8 @@ export class FUxDiceRollerCombatHelperForm extends FormApplication {
     }
   }
   async _Roll(rollexpression) {
-    let results = await new Roll(rollexpression).roll({async: true});    
+    // Roll#roll/evaluate is always async since v12; the {async: true} option is deprecated.
+    let results = await new Roll(rollexpression).roll();
     let rolled = results.total;
     return rolled;
   }

@@ -187,14 +187,18 @@ class FUxDiceRoller {
     } else {
       console.log(_module_id + ' || Current system ' + runningsystemname);
       // add hook for chat messages
-      Hooks.on("renderChatMessage", async (app, html, data) => {
-        let result = $(html).find(".fux-dice-roller-chat-result")[0];
-        if (result) {
-          if (!game.user.isGM && data.message.blind) {
-            result.style.display = "none";
-          }
+      // Foundry v13 renamed this hook to "renderChatMessageHTML" (raw HTMLElement instead
+      // of jQuery, and the message document is passed directly). We listen on both hook
+      // names so the module keeps working on v10-v12 as well as v13+.
+      const hideBlindResult = (message, html) => {
+        const root = html instanceof HTMLElement ? html : html?.[0];
+        const result = root?.querySelector(".fux-dice-roller-chat-result");
+        if (result && !game.user.isGM && (message?.blind ?? message?.message?.blind)) {
+          result.style.display = "none";
         }
-      });
+      };
+      Hooks.on("renderChatMessage", (app, html, data) => hideBlindResult(data?.message ?? app, html));
+      Hooks.on("renderChatMessageHTML", (message, html) => hideBlindResult(message, html));
     }
   }
 }
@@ -240,21 +244,32 @@ Hooks.once('init', () => {
 });
 
 
-Hooks.on("renderSidebarTab", async (app, html) => {
-  if (app.options.id == "chat") {
-    let icon = html.find('.chat-control-icon');
+Hooks.on("renderSidebarTab", (app, html) => {
+  try {
+    const tabId = app?.options?.id ?? app?.id ?? app?.tabName;
+    if (tabId !== "chat") return;
 
-    //console.warn(icon[0].innerHTML);
-    // get rid of the d20 icon                             
-    icon[0].innerHTML = '';
-    // add the fu icon
-    icon.after('<img id="fux-dice-roller-show" class="btn-fux-dice-roller-show"  src="modules/fux-dice-roller/images/fux-dice-roller.svg" alt="FU" title="Show FUx Dice Roller">');
-    // add event listener t0 icon  
-    html.find('#fux-dice-roller-show').click(ev => {
-      //console.log('clicked it');   
-      let options = {};
-      new FUxDiceRollerForm(options).render(true, {focus: true});
+    // Foundry v13 rewrote the Sidebar/ChatLog using ApplicationV2, which may pass a
+    // raw HTMLElement instead of jQuery and could change internal class names. Resolve
+    // defensively and bail out quietly if the expected control icon isn't found, rather
+    // than throwing and breaking other module init.
+    const root = html instanceof HTMLElement ? html : html?.[0];
+    const icon = root?.querySelector('.chat-control-icon');
+    if (!icon) return;
+
+    icon.innerHTML = '';
+    const btn = document.createElement('img');
+    btn.id = 'fux-dice-roller-show';
+    btn.className = 'btn-fux-dice-roller-show';
+    btn.src = 'modules/fux-dice-roller/images/fux-dice-roller.svg';
+    btn.alt = 'FU';
+    btn.title = 'Show FUx Dice Roller';
+    icon.after(btn);
+    btn.addEventListener('click', () => {
+      new FUxDiceRollerForm({}).render(true, {focus: true});
     });
+  } catch (err) {
+    console.warn(_module_id + ' | Could not add the chat control icon (sidebar layout may differ on this Foundry version). Use the /fux chat command instead.', err);
   }
 });
 

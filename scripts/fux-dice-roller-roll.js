@@ -1,7 +1,9 @@
 import { FUX_CONST } from   './fux-dice-roller-constants.js';
 const _module_id = 'fux-dice-roller';  // modules true name(id)
 async function RollD6s(faces){
-  let roll=await new Roll(faces + "d6").roll({async: true});
+  // Roll#roll/evaluate is always async since v12; passing {async: true} now just
+  // logs a deprecation warning, so the option is omitted.
+  let roll=await new Roll(faces + "d6").roll();
   return roll;
 }
 function getGameSetting(settingName){
@@ -214,7 +216,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
       submsg = 'Result: ' + rollvalue;
       switch (rollvalue) {
         // in NCO BOTCH: If all the action dice have been canceled out, or the only remaining 
-        // action dice are 1’s, you have critically failed. Things have gone very wrong and 
+        // action dice are 1ï¿½s, you have critically failed. Things have gone very wrong and 
         // the consequences will be terrible.
         case 0:
         case 1:
@@ -333,7 +335,7 @@ export async function RollFuxDice(actiondice, dangerdice) {
       submsg = 'Result: ' + rollvalue;
       switch (rollvalue) {
         // In FU2 Botch: if all the ( are cancelled, 
-        // the result counts as a roll of “1”.
+        // the result counts as a roll of ï¿½1ï¿½.
         case 0:
           oracle = 'BOTCH';
           hasfumble = true;
@@ -376,7 +378,10 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let selfmode=false;
     let rolltype = document.getElementsByClassName("roll-type-select");
     let rtypevalue = rolltype[0].value;
-    let rvalue = CONST.CHAT_MESSAGE_TYPES.OTHER;
+    // CHAT_MESSAGE_TYPES was renamed to CHAT_MESSAGE_STYLES in v12 (same keys/values);
+    // fall back to the old name so this keeps working on v10/v11 too.
+    const CHAT_MESSAGE_KIND = CONST.CHAT_MESSAGE_STYLES ?? CONST.CHAT_MESSAGE_TYPES;
+    let rvalue = CHAT_MESSAGE_KIND.OTHER;
     switch (rtypevalue) {      //roll, gmroll,blindroll,selfroll
       case CONST.DICE_ROLL_MODES.PUBLIC:
         publicmode=true;
@@ -455,8 +460,10 @@ export async function RollFuxDice(actiondice, dangerdice) {
     let msgimg;
     let msgname;
     if (game.user.character != null) {
-      msgimg = game.user.character.data.img;
-      msgname = game.user.character.data.name;
+      // Actor/Document fields moved out of the .data wrapper as of the v10 DataModel
+      // refactor (game.user.character.img/name), so this no longer reads via .data.
+      msgimg = game.user.character.img;
+      msgname = game.user.character.name;
     } else {
       msgimg = game.user.avatar;
       msgname = game.user.name;
@@ -485,10 +492,12 @@ export async function RollFuxDice(actiondice, dangerdice) {
         summary: submsg + ' => ' + oracle
       };
 
-      renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-sandbox.hbs", rollData).then(html => {
+      const renderFuxTemplate = foundry.applications?.handlebars?.renderTemplate ?? renderTemplate;
+      renderFuxTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-sandbox.hbs", rollData).then(html => {
         let messageData = {
           content: html,
-          type: rvalue,
+          type: rvalue,   // deprecated alias, kept for v10/v11
+          style: rvalue,  // v12+ field name
           blind: blindmode
         };
         if (rtypevalue == CONST.DICE_ROLL_MODES.PRIVATE || rtypevalue == CONST.DICE_ROLL_MODES.BLIND) {
@@ -580,10 +589,12 @@ export async function RollFuxDice(actiondice, dangerdice) {
         summary: submsg + ' => ' + oracle
       };
 
-      renderTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
+      const renderFuxTemplate = foundry.applications?.handlebars?.renderTemplate ?? renderTemplate;
+      renderFuxTemplate("modules/fux-dice-roller/templates/fux-dice-roller-chatmsg-core.hbs", rollData).then(html => {
         let messageData = {
           content: html,
-          type: rvalue,
+          type: rvalue,   // deprecated alias, kept for v10/v11
+          style: rvalue,  // v12+ field name
           blind: blindmode
         };
         
