@@ -1,4 +1,13 @@
 # FUx Dice Roller Change Log
+## Version 0.4.7 (2026-07-14) - fux-dice-roller-fix
+- Restored the "FU" icon next to the chat roll-mode buttons, matching the pre-v13
+  placement. Confirmed via live DOM inspection on 13.351 that v13 replaced
+  `.chat-control-icon` with `#chat-controls > #roll-privacy` (4 mode buttons) +
+  `.control-buttons` (export/flush); the button is now inserted right before
+  `#roll-privacy`. Registered on `renderChatLog`/`renderSidebarTab` plus a debounced
+  `MutationObserver` fallback, since it wasn't certain which hook (if any) fires at the
+  right time for this ApplicationV2 chat part.
+
 ## Version 0.4.6 (2026-07-14) - fux-dice-roller-fix
 - Added a Scene Controls tool button (left-hand toolbar, token controls group) that
   opens the FUx Dice Roller window. Uses `getSceneControlButtons`, a stable documented

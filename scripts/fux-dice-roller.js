@@ -274,6 +274,44 @@ Hooks.on("renderSidebarTab", (app, html) => {
 });
 
 
+// Foundry v13 rewrote the chat box controls as:
+//   <div id="chat-controls"><div id="roll-privacy" class="split-button">...4 mode buttons...</div>
+//     <div class="control-buttons">...export/flush...</div></div>
+// (confirmed via live DOM inspection on 13.351) - there is no more ".chat-control-icon".
+// Insert our button right before the roll-privacy group, matching the pre-v13 placement
+// (icon immediately left of the roll-mode control). We don't know exactly which hook
+// fires when this part (re)renders under ApplicationV2's partial rendering, so in
+// addition to the render hooks we watch the DOM directly and bail out once inserted.
+function fuxInsertChatButton() {
+  if (document.getElementById('fux-dice-roller-show')) return;
+  const rollPrivacy = document.getElementById('roll-privacy');
+  if (!rollPrivacy) return;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.id = 'fux-dice-roller-show';
+  btn.className = 'ui-control icon';
+  btn.title = 'Show FUx Dice Roller';
+  btn.setAttribute('aria-label', 'FUx Dice Roller');
+  btn.innerHTML = '<img class="btn-fux-dice-roller-show" src="modules/fux-dice-roller/images/fux-dice-roller.svg" alt="FU">';
+  btn.addEventListener('click', (event) => {
+    event.preventDefault();
+    new FUxDiceRollerForm({}).render(true, {focus: true});
+  });
+  rollPrivacy.parentElement.insertBefore(btn, rollPrivacy);
+}
+
+Hooks.on("renderChatLog", fuxInsertChatButton);
+Hooks.on("renderSidebarTab", fuxInsertChatButton);
+Hooks.once("ready", () => {
+  fuxInsertChatButton();
+  let fuxObserverTimeout = null;
+  new MutationObserver(() => {
+    clearTimeout(fuxObserverTimeout);
+    fuxObserverTimeout = setTimeout(fuxInsertChatButton, 150);
+  }).observe(document.body, { childList: true, subtree: true });
+});
+
+
 // Reliable launcher: a Scene Controls tool button (left-hand toolbar). Unlike the chat
 // sidebar icon above, getSceneControlButtons is a stable, documented API that hasn't
 // changed shape across the module's declared v10-v13 range beyond controls/tools going

@@ -26,13 +26,12 @@ All other credit for the module goes to the original author.
 
 ### Ways to open the dice roller on v13
 
+- **"FU" icon next to the chat roll-mode buttons** (bottom of the chat tab, left of the globe/mask/eye/person icons) — restored in 0.4.7 to match the pre-v13 placement
 - **Scene Controls** (left-hand toolbar, dice icon in the token tools group) — added in 0.4.6, uses a stable documented API
 - **Settings → Configure Settings → Module Settings → FUx Dice Roller**
 - **`/fux [x]a[y]d` chat command** (e.g. `/fux 2a1d`)
 
-### Known limitation
-
-Foundry v13 rewrote the core chat sidebar with the new ApplicationV2 framework, and its internal HTML/class names could not be verified against a live v13 instance while patching this fork. The dice-roller icon injection into the chat sidebar controls is best-effort and fails silently instead of throwing if the expected DOM structure isn't found — use one of the alternatives above if it doesn't appear. Open an issue with a screenshot/HTML snippet of your chat sidebar controls if you'd like that specific spot fixed.
+The Scene Controls button, Settings-menu launcher, and `/fux` command are confirmed working live on Foundry v13.351. The chat icon placement is based on the actual v13 chat-controls DOM (verified by inspecting a live 13.351 world) but is still pending a live click-test.
 
 ## Install
 
